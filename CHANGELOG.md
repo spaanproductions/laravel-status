@@ -3,6 +3,30 @@
 All notable changes to `spaanproductions/laravel-status` will be documented in this file. Up to 2.4.0 the package was
 `mtvtd/laravel-stats`.
 
+## Unreleased
+
+- Keep the dashboard up to date between deploys: the health check route (`/up`, Laravel 11+) starts the same sync as
+  `laravel-status:sync` in the background, at most once every 6 hours (`LARAVEL_STATUS_HEALTH_SYNC_ENABLED`,
+  `LARAVEL_STATUS_HEALTH_SYNC_HOURS`). It can never make the health check fail.
+- Report the health of the queue (`queue`: connection, waiting jobs, failed jobs, last processed job) and when the
+  scheduler last ran (`scheduler`), so the dashboard can tell whether the queue worker and the cron run. The times are
+  heartbeat files in `storage/framework/laravel-status`.
+- Every job has its own configurable queue: `LARAVEL_STATUS_SCHEDULER_QUEUE`, `LARAVEL_STATUS_BACKUPS_QUEUE` and
+  `LARAVEL_STATUS_SYNC_QUEUE` (default: the default queue).
+- The git info (`git-info`) is sent again: branch, HEAD commit (id, subject, date) and remotes, collected with Symfony
+  Process in the project directory. Without author names and e-mail addresses, and without credentials in remote URLs.
+- One failing collector no longer fails the sync: an optional metric that throws is left out (the dashboard keeps its
+  last value) and reported with `LARAVEL_STATUS_LOG_EXCEPTIONS=true`. Only the required ones (host, environment, name,
+  url, packages, PHP and Laravel version, server info) still fail it.
+- `about` is no longer cached for an hour, so a sync right after a deploy sends the new state.
+- Internal: metrics live in `SpaanProductions\LaravelStatus\Metrics`, the list in `StatsCollector`; the
+  `CollectableMetric` interface and the git helper classes are gone. Requires `symfony/process` (part of every Laravel
+  install).
+- Development: PHP CS Fixer is in `require-dev` (`composer lint`, `composer fix`), the config is `.php-cs-fixer.dist.php`,
+  and CI uses that same version.
+- Removed the unused migration and factory stubs, the views directory, the Psalm config and the `LaravelStatus` alias
+  (its facade pointed to a binding that didn't exist).
+
 ## 3.0.1 - 2026-11-19
 
 - Scheduler logging is now opt-in: set `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED=true` to send the scheduled task
