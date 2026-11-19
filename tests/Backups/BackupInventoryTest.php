@@ -4,9 +4,9 @@ namespace SpaanProductions\LaravelStatus\Tests\Backups;
 
 use Illuminate\Support\Carbon;
 use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Backups;
 use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackup;
 use SpaanProductions\LaravelStatus\Backups\BackupInventory;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Backups;
 use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackupDestination;
 
 class BackupInventoryTest extends TestCase
@@ -17,7 +17,7 @@ class BackupInventoryTest extends TestCase
 
 		FakeBackupDestination::$disks = [];
 
-		config()->set('backup.backup.name', 'Clothing4U');
+		config()->set('backup.backup.name', 'Kledingwinkel');
 		config()->set('backup.backup.destination.disks', ['s3', 'local']);
 	}
 
@@ -47,8 +47,8 @@ class BackupInventoryTest extends TestCase
 	{
 		FakeBackupDestination::$disks = [
 			's3' => ['reachable' => true, 'backups' => [
-				new FakeBackup('Clothing4U/2026-11-04-02-00-03.zip', Carbon::parse('2026-11-04 02:00:03'), 1500),
-				new FakeBackup('Clothing4U/2026-11-03-02-00-03.zip', Carbon::parse('2026-11-03 02:00:03'), 1400),
+				new FakeBackup('Kledingwinkel/2026-11-04-02-00-03.zip', Carbon::parse('2026-11-04 02:00:03'), 1500),
+				new FakeBackup('Kledingwinkel/2026-11-03-02-00-03.zip', Carbon::parse('2026-11-03 02:00:03'), 1400),
 			]],
 			'local' => ['reachable' => false, 'error' => 'Permission denied'],
 		];
@@ -58,10 +58,10 @@ class BackupInventoryTest extends TestCase
 		$this->assertCount(2, $destinations);
 
 		$this->assertSame('s3', $destinations[0]['disk']);
-		$this->assertSame('Clothing4U', $destinations[0]['name']);
+		$this->assertSame('Kledingwinkel', $destinations[0]['name']);
 		$this->assertTrue($destinations[0]['reachable']);
 		$this->assertSame(2900.0, $destinations[0]['used_storage']);
-		$this->assertSame('Clothing4U/2026-11-04-02-00-03.zip', $destinations[0]['backups'][0]['path']);
+		$this->assertSame('Kledingwinkel/2026-11-04-02-00-03.zip', $destinations[0]['backups'][0]['path']);
 		$this->assertSame(1500.0, $destinations[0]['backups'][0]['size']);
 		$this->assertSame(Carbon::parse('2026-11-04 02:00:03')->toIso8601String(), $destinations[0]['backups'][0]['date']);
 
@@ -74,7 +74,7 @@ class BackupInventoryTest extends TestCase
 	{
 		FakeBackupDestination::$disks = [
 			's3' => ['throws' => true],
-			'local' => ['reachable' => true, 'backups' => [new FakeBackup('Clothing4U/a.zip', Carbon::now(), 10)]],
+			'local' => ['reachable' => true, 'backups' => [new FakeBackup('Kledingwinkel/a.zip', Carbon::now(), 10)]],
 		];
 
 		$destinations = $this->inventory()->destinations();
@@ -90,11 +90,11 @@ class BackupInventoryTest extends TestCase
 		config()->set('laravel-status.backups.max', 1);
 
 		FakeBackupDestination::$disks = ['s3' => ['reachable' => true, 'backups' => [
-			new FakeBackup('Clothing4U/new.zip', Carbon::now(), 10),
-			new FakeBackup('Clothing4U/old.zip', Carbon::now()->subDay(), 10),
+			new FakeBackup('Kledingwinkel/new.zip', Carbon::now(), 10),
+			new FakeBackup('Kledingwinkel/old.zip', Carbon::now()->subDay(), 10),
 		]]];
 
-		$this->assertSame(['Clothing4U/new.zip'], array_column($this->inventory()->destinations()[0]['backups'], 'path'));
+		$this->assertSame(['Kledingwinkel/new.zip'], array_column($this->inventory()->destinations()[0]['backups'], 'path'));
 	}
 
 	public function test_the_metric_sends_the_destinations()

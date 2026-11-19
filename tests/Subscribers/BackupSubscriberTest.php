@@ -23,9 +23,9 @@ class BackupSubscriberTest extends TestCase
 	{
 		Bus::fake();
 
-		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV10('s3', 'Clothing4U'));
+		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV10('s3', 'Kledingwinkel'));
 
-		$this->assertReported(['type' => 'succeeded', 'disk' => 's3', 'name' => 'Clothing4U', 'error' => null]);
+		$this->assertReported(['type' => 'succeeded', 'disk' => 's3', 'name' => 'Kledingwinkel', 'error' => null]);
 	}
 
 	public function test_a_failed_backup_is_reported_with_its_error_with_laravel_backup_v10()
@@ -41,14 +41,14 @@ class BackupSubscriberTest extends TestCase
 	{
 		Bus::fake();
 
-		$destination = FakeBackupDestination::create('s3', 'Clothing4U');
+		$destination = FakeBackupDestination::create('s3', 'Kledingwinkel');
 
 		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV9($destination));
 		(new BackupSubscriber())->handle(FakeBackupEvents::failedV9(new Exception('S3 timeout'), $destination));
 		(new BackupSubscriber())->handle(FakeBackupEvents::failedV9(new Exception('Dump failed')));
 
-		$this->assertReported(['type' => 'succeeded', 'disk' => 's3', 'name' => 'Clothing4U', 'error' => null]);
-		$this->assertReported(['type' => 'failed', 'disk' => 's3', 'name' => 'Clothing4U', 'error' => 'S3 timeout']);
+		$this->assertReported(['type' => 'succeeded', 'disk' => 's3', 'name' => 'Kledingwinkel', 'error' => null]);
+		$this->assertReported(['type' => 'failed', 'disk' => 's3', 'name' => 'Kledingwinkel', 'error' => 'S3 timeout']);
 		$this->assertReported(['type' => 'failed', 'disk' => null, 'name' => null, 'error' => 'Dump failed']);
 	}
 
@@ -57,7 +57,7 @@ class BackupSubscriberTest extends TestCase
 		config()->set('laravel-status.backup-reporting-enabled', false);
 		Bus::fake();
 
-		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV10('s3', 'Clothing4U'));
+		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV10('s3', 'Kledingwinkel'));
 
 		Bus::assertNotDispatched(BackupReportJob::class);
 	}
@@ -68,6 +68,7 @@ class BackupSubscriberTest extends TestCase
 			$this->markTestSkipped('spatie/laravel-backup is installed.');
 		}
 
-		$this->assertFalse($this->app->make('events')->hasListeners(BackupSubscriber::SUCCEEDED));
+		// Not hasListeners(): that also counts wildcard listeners, such as the one spatie/laravel-ray adds.
+		$this->assertArrayNotHasKey(BackupSubscriber::SUCCEEDED, $this->app->make('events')->getRawListeners());
 	}
 }

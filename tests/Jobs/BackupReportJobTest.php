@@ -10,13 +10,13 @@ use SpaanProductions\LaravelStatus\Backups\BackupInventory;
 
 class BackupReportJobTest extends TestCase
 {
-	private array $event = ['type' => 'failed', 'disk' => 's3', 'name' => 'Clothing4U', 'error' => 'S3 timeout'];
+	private array $event = ['type' => 'failed', 'disk' => 's3', 'name' => 'Kledingwinkel', 'error' => 'S3 timeout'];
 
 	public function setUp(): void
 	{
 		parent::setUp();
 
-		config()->set('app.url', 'https://c4u.nu');
+		config()->set('app.url', 'https://kledingwinkel.nu');
 		config()->set('app.env', 'production');
 		config()->set('laravel-status.base-url', 'https://status.test');
 		config()->set('laravel-status.token', 'secret-token');
@@ -40,14 +40,14 @@ class BackupReportJobTest extends TestCase
 	{
 		Http::fake(['https://status.test/api/backups' => Http::response(null, 204)]);
 
-		$destinations = [['disk' => 's3', 'name' => 'Clothing4U', 'reachable' => true, 'used_storage' => 10.0, 'error' => null, 'backups' => []]];
+		$destinations = [['disk' => 's3', 'name' => 'Kledingwinkel', 'reachable' => true, 'used_storage' => 10.0, 'error' => null, 'backups' => []]];
 
 		(new BackupReportJob($this->event))->handle($this->inventory($destinations));
 
 		Http::assertSent(function ($request) use ($destinations) {
 			return $request->url() === 'https://status.test/api/backups'
 				&& $request->hasHeader('Authorization', 'Bearer secret-token')
-				&& $request['host'] === 'c4u.nu'
+				&& $request['host'] === 'kledingwinkel.nu'
 				&& $request['environment'] === 'production'
 				&& $request['backups'] === $destinations
 				&& $request['event'] === $this->event;
