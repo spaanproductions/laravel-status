@@ -6,6 +6,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use SpaanProductions\LaravelStatus\Subscribers\BackupSubscriber;
 use SpaanProductions\LaravelStatus\Commands\LaravelStatusCommand;
+use SpaanProductions\LaravelStatus\Subscribers\HeartbeatSubscriber;
 use SpaanProductions\LaravelStatus\Subscribers\HealthCheckSubscriber;
 use SpaanProductions\LaravelStatus\Subscribers\ScheduledTaskSubscriber;
 
@@ -44,6 +45,9 @@ class LaravelStatusServiceProvider extends PackageServiceProvider
 
 			// spatie/laravel-backup runs its backups from the console (backup:run).
 			$this->app->make('events')->subscribe(BackupSubscriber::class);
+
+			// The scheduler and the queue workers run from the console.
+			$this->app->make('events')->subscribe(HeartbeatSubscriber::class);
 		}
 	}
 }

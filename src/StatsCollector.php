@@ -32,6 +32,8 @@ class StatsCollector
 		Metrics\ScheduledTasks::class,
 		Metrics\LaravelAbout::class,
 		Metrics\Backups::class,
+		Metrics\Queue::class,
+		Metrics\Scheduler::class,
 	];
 
 	/** @var array<string, string> The optional metrics left out by the last collect(), with the reason. */

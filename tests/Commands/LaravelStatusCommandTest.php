@@ -109,6 +109,7 @@ class LaravelStatusCommandTest extends TestCase
 		$this->assertEqualsCanonicalizing([
 			'host', 'environment', 'name', 'version', 'url', 'git-info', 'packages', 'npm-packages', 'dependencies',
 			'npm-dependencies', 'php-version', 'laravel-version', 'server-info', 'scheduled-tasks', 'about', 'backups',
+			'queue', 'scheduler',
 		], $names);
 	}
 }
