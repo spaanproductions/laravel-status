@@ -60,7 +60,7 @@ The API on the other side is the Spaan Productions Status app (`POST /api/stats`
 
 `spatie/ray` and `spatie/laravel-ray` are not used by the package: orchestra/testbench pulls them in through
 orchestra/workbench. They have a minimum version in `require-dev` only so `prefer-lowest` in CI doesn't install old
-versions that trigger PHP 8.4 deprecation warnings. Projects that install the package are not affected.
+versions that trigger PHP 8.4 and 8.5 deprecation warnings (ray 1.43.0 is the first without the 8.5 "null as an array offset" one). Projects that install the package are not affected.
 
 ## Code style
 

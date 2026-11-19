@@ -8,7 +8,7 @@ All notable changes to `spaanproductions/laravel-status` will be documented in t
 - Scheduler logging is now opt-in: set `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED=true` to send the scheduled task
   events. The scheduled tasks themselves are still sent with every `laravel-status:sync`.
 - CI: `spatie/ray` and `spatie/laravel-ray` (via orchestra/workbench) have a minimum version in `require-dev`, so the
-  `prefer-lowest` runs no longer install versions with PHP 8.4 deprecations.
+  `prefer-lowest` runs no longer install versions with PHP 8.4 and 8.5 deprecations.
 
 ## 3.0.0 - 2026-11-19
 
