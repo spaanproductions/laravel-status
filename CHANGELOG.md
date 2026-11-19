@@ -3,7 +3,7 @@
 All notable changes to `spaanproductions/laravel-status` will be documented in this file. Up to 2.4.0 the package was
 `mtvtd/laravel-stats`.
 
-## Unreleased
+## 3.1.0 - 2026-11-19
 
 - Keep the dashboard up to date between deploys: the health check route (`/up`, Laravel 11+) starts the same sync as
   `laravel-status:sync` in the background, at most once every 6 hours (`LARAVEL_STATUS_HEALTH_SYNC_ENABLED`,
