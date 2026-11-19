@@ -111,6 +111,12 @@ reports its backups, whatever disk they are on (S3, local, ...):
 
 Nothing changes for projects without laravel-backup.
 
+## Laravel Boost
+
+The package ships a [Laravel Boost](https://github.com/laravel/boost) skill (`laravel-status`): setup, configuration
+and troubleshooting of the sync, for the AI agents in the project. Boost offers it on `php artisan boost:install` and
+keeps it current with `php artisan boost:update`.
+
 ## Upgrading from mtvtd/laravel-stats
 
 See the 3.0.0 entry in the [CHANGELOG](CHANGELOG.md): a new package name, command, config file and env keys.

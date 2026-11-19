@@ -11,6 +11,8 @@ All notable changes to `spaanproductions/laravel-status` will be documented in t
 - Report the health of the queue (`queue`: connection, waiting jobs, failed jobs, last processed job) and when the
   scheduler last ran (`scheduler`), so the dashboard can tell whether the queue worker and the cron run. The times are
   heartbeat files in `storage/framework/laravel-status`.
+- A Laravel Boost skill (`resources/boost/skills/laravel-status`): Boost installs it in projects that use the package,
+  with the setup, the configuration and a troubleshooting table.
 - Every job has its own configurable queue: `LARAVEL_STATUS_SCHEDULER_QUEUE`, `LARAVEL_STATUS_BACKUPS_QUEUE` and
   `LARAVEL_STATUS_SYNC_QUEUE` (default: the default queue).
 - The git info (`git-info`) is sent again: branch, HEAD commit (id, subject, date) and remotes, collected with Symfony

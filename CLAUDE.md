@@ -27,6 +27,9 @@ The two integration points end-users hit:
 ### Service provider wiring (`LaravelStatusServiceProvider`)
 Built on `spatie/laravel-package-tools`. Registers the config file and the `laravel-status:sync` command; binds `HealthCheckSubscriber` always (the health check is a web request) and, only when running in console, `ScheduledTaskSubscriber` and `BackupSubscriber`. No migrations, views or models.
 
+### Laravel Boost skill
+`resources/boost/skills/laravel-status/SKILL.md` is installed by Laravel Boost (`boost:install`/`boost:update`) in projects that require the package directly. Boost skips a skill without `name` and `description` frontmatter (`tests/BoostSkillTest.php`). Keep it in step with the README: env keys, setup steps, troubleshooting. `resources/` must not be export-ignored in `.gitattributes`.
+
 ### Health check sync
 `HealthCheckSubscriber` listens to `DiagnosingHealth` (the `/up` route, Laravel 11+; not registered on older versions). `Cache::add()` lets one health check per `health-sync.hours` dispatch `SyncStatusJob` (after the response on the `sync` queue), which runs `laravel-status:sync` through `Artisan::call()`, so the console kernel and the schedule are loaded (otherwise `scheduled-tasks` would be empty and the dashboard would mark every task inactive). The listener catches everything: a throwing listener makes `/up` answer 500.
 
