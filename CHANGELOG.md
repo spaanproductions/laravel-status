@@ -3,7 +3,7 @@
 All notable changes to `spaanproductions/laravel-status` will be documented in this file. Up to 2.4.0 the package was
 `mtvtd/laravel-stats`.
 
-## 3.0.0 - unreleased
+## 3.0.0 - 2026-11-19
 
 The package is now `spaanproductions/laravel-status` and reports to status.spaanproductions.nl. Upgrading from
 `mtvtd/laravel-stats`:
