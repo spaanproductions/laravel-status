@@ -22,7 +22,7 @@ class ScheduledTaskEventLogJob implements ShouldQueue
 	public function __construct(
 		public array $payload,
 	) {
-		//
+		$this->onQueue(config('laravel-status.queues.scheduler'));
 	}
 
 	public function handle(): void

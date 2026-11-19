@@ -6,6 +6,7 @@ use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
 use SpaanProductions\LaravelStatus\Subscribers\BackupSubscriber;
 use SpaanProductions\LaravelStatus\Commands\LaravelStatusCommand;
+use SpaanProductions\LaravelStatus\Subscribers\HealthCheckSubscriber;
 use SpaanProductions\LaravelStatus\Subscribers\ScheduledTaskSubscriber;
 
 class LaravelStatusServiceProvider extends PackageServiceProvider
@@ -20,7 +21,6 @@ class LaravelStatusServiceProvider extends PackageServiceProvider
 		$package
 			->name('laravel-status')
 			->hasConfigFile('laravel-status')
-			// ->hasViews()
 			->hasCommands([
 				LaravelStatusCommand::class,
 			]);
@@ -36,6 +36,9 @@ class LaravelStatusServiceProvider extends PackageServiceProvider
 
 	public function bootingPackage(): void
 	{
+		// The health check is a web request: listen outside the console as well.
+		$this->app->make('events')->subscribe(HealthCheckSubscriber::class);
+
 		if ($this->app->runningInConsole()) {
 			$this->app->make('events')->subscribe(ScheduledTaskSubscriber::class);
 

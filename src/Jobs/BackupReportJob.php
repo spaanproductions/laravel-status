@@ -31,7 +31,7 @@ class BackupReportJob implements ShouldQueue
 	public function __construct(
 		public array $event,
 	) {
-		//
+		$this->onQueue(config('laravel-status.queues.backups'));
 	}
 
 	public function handle(BackupInventory $inventory): void
