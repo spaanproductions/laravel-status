@@ -31,7 +31,12 @@ php artisan laravel-status:sync
 The project shows up on the dashboard after the first sync. `php artisan laravel-status:sync --dry-run` shows what
 would be sent, without sending it.
 
-The scheduled task events go through the queue, so the project needs a running queue worker.
+To also send every run of the scheduled tasks (start, finish, skip, failure), turn on the scheduler logging. It goes
+through the queue, so the project needs a running queue worker:
+
+```dotenv
+LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED=true
+```
 
 ## Configuration
 
@@ -45,7 +50,7 @@ php artisan vendor:publish --tag="laravel-status-config"
 |---|---|---|
 | `LARAVEL_STATUS_TOKEN` | – | The project token; without it nothing is sent |
 | `LARAVEL_STATUS_BASE_URL` | `https://status.spaanproductions.nl` | Only for testing against another dashboard |
-| `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED` | `true` | Send every start, finish, skip and failure of a scheduled task |
+| `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED` | `false` | Send every start, finish, skip and failure of a scheduled task (needs a queue worker) |
 | `LARAVEL_STATUS_BACKUP_REPORTING_ENABLED` | `true` | Send the spatie/laravel-backup backups |
 | `LARAVEL_STATUS_LOG_EXCEPTIONS` | `false` | Report failed requests to the project's error tracker (`report()`) |
 

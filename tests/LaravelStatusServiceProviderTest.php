@@ -22,7 +22,7 @@ class LaravelStatusServiceProviderTest extends TestCase
 	{
 		$this->assertSame('https://status.spaanproductions.nl', config('laravel-status.base-url'));
 		$this->assertNull(config('laravel-status.token'));
-		$this->assertTrue(config('laravel-status.scheduler-logging-enabled'));
+		$this->assertFalse(config('laravel-status.scheduler-logging-enabled'), 'Scheduler logging is opt-in.');
 		$this->assertFalse(config('laravel-status.log-exceptions'));
 	}
 

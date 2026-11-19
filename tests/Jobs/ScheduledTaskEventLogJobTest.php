@@ -99,6 +99,7 @@ class ScheduledTaskEventLogJobTest extends TestCase
 	public function test_a_failing_request_is_reported_when_log_exceptions_is_on()
 	{
 		Http::fake(['*' => Http::response('Down', 503)]);
+		config()->set('laravel-status.scheduler-logging-enabled', true);
 		config()->set('laravel-status.token', 'tkn');
 		config()->set('laravel-status.log-exceptions', true);
 		$this->mock(ExceptionHandler::class)->shouldReceive('report')->once();
@@ -109,9 +110,20 @@ class ScheduledTaskEventLogJobTest extends TestCase
 	public function test_a_failing_request_is_not_reported_by_default()
 	{
 		Http::fake(['*' => Http::response('Down', 503)]);
+		config()->set('laravel-status.scheduler-logging-enabled', true);
 		config()->set('laravel-status.token', 'tkn');
 		$this->mock(ExceptionHandler::class)->shouldNotReceive('report');
 
 		(new ScheduledTaskEventLogJob($this->validPayload()))->handle();
+	}
+
+	public function test_does_not_send_http_by_default()
+	{
+		Http::fake();
+		config()->set('laravel-status.token', 'tkn');
+
+		(new ScheduledTaskEventLogJob($this->validPayload()))->handle();
+
+		Http::assertNothingSent();
 	}
 }

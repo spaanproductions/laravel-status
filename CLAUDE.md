@@ -48,13 +48,19 @@ Produces a stable `laravel-status:<sha1>` identifier per scheduled task so the b
 `config/laravel-status.php` exposes four env vars:
 - `LARAVEL_STATUS_BASE_URL` (default `https://status.spaanproductions.nl`)
 - `LARAVEL_STATUS_TOKEN` — bearer token; if null, the scheduler job silently no-ops.
-- `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED` (default `true`) — gates both the subscriber and the job.
+- `LARAVEL_STATUS_SCHEDULER_LOGGING_ENABLED` (default `false`, opt-in since it needs a queue worker) — gates both the subscriber and the job.
 - `LARAVEL_STATUS_BACKUP_REPORTING_ENABLED` (default `true`) — reports spatie/laravel-backup backups.
 - `LARAVEL_STATUS_LOG_EXCEPTIONS` (default `false`) — controls whether HTTP failures in the jobs are reported.
 
 Publish with `php artisan vendor:publish --tag="laravel-status-config"`. package-tools also registers `status-config` (it names the tag after the short name); the service provider adds `laravel-status-config` in `packageBooted()`.
 
 The API on the other side is the Spaan Productions Status app (`POST /api/stats`, `/api/task-event`, `/api/backups`). Change the payload only together with that app.
+
+## Dev dependencies
+
+`spatie/ray` and `spatie/laravel-ray` are not used by the package: orchestra/testbench pulls them in through
+orchestra/workbench. They have a minimum version in `require-dev` only so `prefer-lowest` in CI doesn't install old
+versions that trigger PHP 8.4 deprecation warnings. Projects that install the package are not affected.
 
 ## Code style
 
