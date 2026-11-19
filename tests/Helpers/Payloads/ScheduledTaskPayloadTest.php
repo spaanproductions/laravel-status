@@ -1,18 +1,18 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers\Payloads;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers\Payloads;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Console\Events\ScheduledTaskFailed;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskPayload;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskFailedPayload;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskSkippedPayload;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskFinishedPayload;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskStartingPayload;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskPayload;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskFailedPayload;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskSkippedPayload;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskFinishedPayload;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskStartingPayload;
 
 class ScheduledTaskPayloadTest extends TestCase
 {

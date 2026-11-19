@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers\Tasks;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers\Tasks;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Illuminate\Console\Scheduling\Schedule;
-use Mtvtd\LaravelStats\Helpers\Tasks\TaskIdentifier;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\Tasks\TaskIdentifier;
 
 class TaskIdentifierTest extends TestCase
 {

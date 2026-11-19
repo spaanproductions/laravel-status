@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtvtd\LaravelStats;
+namespace SpaanProductions\LaravelStatus;
 
 use ReflectionClass;
 use ReflectionFunction;
@@ -8,11 +8,11 @@ use Composer\InstalledVersions;
 use Illuminate\Console\Scheduling\Event;
 use Illuminate\Console\Scheduling\CallbackEvent;
 
-class LaravelStats
+class LaravelStatus
 {
 	public function version(): ?string
 	{
-		return InstalledVersions::getVersion('mtvtd/laravel-stats');
+		return InstalledVersions::getVersion('spaanproductions/laravel-status');
 	}
 
 	public function fingerprintTask(Event $event): string
@@ -21,7 +21,7 @@ class LaravelStats
 			return $this->fingerprintCallbackEvent($event);
 		}
 
-		return sprintf('managelaravel:%s', sha1(trim(
+		return sprintf('laravel-status:%s', sha1(trim(
 			"{$event->expression}.{$event->command}.{$event->description}",
 			'.'
 		)));
@@ -58,7 +58,7 @@ class LaravelStats
 			return '';
 		});
 
-		return sprintf('managelaravel:%s', sha1(
+		return sprintf('laravel-status:%s', sha1(
 			str_replace('..', '.', "{$event->expression}.{$callbackMutex}.{$event->description}")
 		));
 	}

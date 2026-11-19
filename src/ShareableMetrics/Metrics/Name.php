@@ -1,9 +1,9 @@
 <?php
 
-namespace Mtvtd\LaravelStats\ShareableMetrics\Metrics;
+namespace SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
 
-use Mtvtd\LaravelStats\ShareableMetrics\Metric;
-use Mtvtd\LaravelStats\ShareableMetrics\CollectableMetric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\CollectableMetric;
 
 class Name extends Metric implements CollectableMetric
 {

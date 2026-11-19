@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\ShareableMetrics\Metrics;
+namespace SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
 
 use Composer\InstalledVersions;
-use Mtvtd\LaravelStats\ShareableMetrics\Metric;
-use Mtvtd\LaravelStats\ShareableMetrics\CollectableMetric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\CollectableMetric;
 
 class InstalledVersion extends Metric implements CollectableMetric
 {
@@ -15,6 +15,6 @@ class InstalledVersion extends Metric implements CollectableMetric
 
 	public function value()
 	{
-		return InstalledVersions::getVersion('mtvtd/laravel-stats');
+		return InstalledVersions::getVersion('spaanproductions/laravel-status');
 	}
 }

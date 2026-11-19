@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers\SourceControl;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers\SourceControl;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Helpers\SourceControl\GitInfo;
-use Mtvtd\LaravelStats\Helpers\SourceControl\CommitInfo;
-use Mtvtd\LaravelStats\Helpers\SourceControl\RemoteInfo;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\GitInfo;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\CommitInfo;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\RemoteInfo;
 
 class GitInfoDataObjectsTest extends TestCase
 {
@@ -55,13 +55,13 @@ class GitInfoDataObjectsTest extends TestCase
 	{
 		$remote = (new RemoteInfo())
 			->setName('origin')
-			->setUrl('git@github.com:mtvtd/laravel-stats.git');
+			->setUrl('git@github.com:spaanproductions/laravel-status.git');
 
 		$this->assertSame('origin', $remote->getName());
-		$this->assertSame('git@github.com:mtvtd/laravel-stats.git', $remote->getUrl());
+		$this->assertSame('git@github.com:spaanproductions/laravel-status.git', $remote->getUrl());
 		$this->assertSame([
 			'name' => 'origin',
-			'url' => 'git@github.com:mtvtd/laravel-stats.git',
+			'url' => 'git@github.com:spaanproductions/laravel-status.git',
 		], $remote->toArray());
 	}
 

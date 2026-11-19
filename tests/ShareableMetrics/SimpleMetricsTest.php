@@ -1,18 +1,17 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\ShareableMetrics;
+namespace SpaanProductions\LaravelStatus\Tests\ShareableMetrics;
 
 use Composer\InstalledVersions;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Url;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Host;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Name;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\PhpVersion;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\ServerInfo;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Environment;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\LaravelVersion;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\InstalledVersion;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\ManageLaravelTeam;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Url;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Host;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Name;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\PhpVersion;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\ServerInfo;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Environment;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\LaravelVersion;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\InstalledVersion;
 
 class SimpleMetricsTest extends TestCase
 {
@@ -91,19 +90,7 @@ class SimpleMetricsTest extends TestCase
 		$metric = new InstalledVersion();
 
 		$this->assertSame('version', $metric->name());
-		$this->assertSame(InstalledVersions::getVersion('mtvtd/laravel-stats'), $metric->value());
-	}
-
-	public function test_manage_laravel_team_metric_reads_team_id_config()
-	{
-		$metric = new ManageLaravelTeam();
-
-		$this->assertSame('team_id', $metric->name());
-		$this->assertNull($metric->value());
-
-		config()->set('laravel-stats.team-id', 42);
-
-		$this->assertSame(42, (new ManageLaravelTeam())->value());
+		$this->assertSame(InstalledVersions::getVersion('spaanproductions/laravel-status'), $metric->value());
 	}
 
 	public function test_metric_to_array_wraps_name_and_value()

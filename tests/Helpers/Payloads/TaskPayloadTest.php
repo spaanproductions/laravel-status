@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers\Payloads;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers\Payloads;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Illuminate\Console\Scheduling\Schedule;
-use Mtvtd\LaravelStats\Helpers\Payloads\TaskPayload;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\TaskPayload;
 
 class TaskPayloadTest extends TestCase
 {
@@ -37,7 +37,7 @@ class TaskPayloadTest extends TestCase
 		$this->assertFalse($payload['maintenance']);
 		$this->assertFalse($payload['without_overlapping']);
 		$this->assertSame('Inspire me', $payload['description']);
-		$this->assertStringStartsWith('managelaravel:', $payload['mutex']);
+		$this->assertStringStartsWith('laravel-status:', $payload['mutex']);
 		$this->assertFalse($payload['filtered']);
 	}
 

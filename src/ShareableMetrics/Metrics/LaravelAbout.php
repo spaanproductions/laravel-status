@@ -1,13 +1,13 @@
 <?php
 
-namespace Mtvtd\LaravelStats\ShareableMetrics\Metrics;
+namespace SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Foundation\Console\AboutCommand;
-use Mtvtd\LaravelStats\ShareableMetrics\Metric;
-use Mtvtd\LaravelStats\ShareableMetrics\CollectableMetric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\CollectableMetric;
 
 class LaravelAbout extends Metric implements CollectableMetric
 {

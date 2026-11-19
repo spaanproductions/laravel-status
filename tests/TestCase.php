@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests;
+namespace SpaanProductions\LaravelStatus\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
 use Illuminate\Database\Eloquent\Factories\Factory;
-use Mtvtd\LaravelStats\LaravelStatsServiceProvider;
+use SpaanProductions\LaravelStatus\LaravelStatusServiceProvider;
 
 class TestCase extends Orchestra
 {
@@ -17,7 +17,7 @@ class TestCase extends Orchestra
 
 		Factory::guessFactoryNamesUsing(
 			function (string $modelName) {
-				return 'Mtvtd\\LaravelStats\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
+				return 'SpaanProductions\\LaravelStatus\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
 			}
 		);
 	}
@@ -25,7 +25,7 @@ class TestCase extends Orchestra
 	protected function getPackageProviders($app)
 	{
 		return [
-			LaravelStatsServiceProvider::class,
+			LaravelStatusServiceProvider::class,
 		];
 	}
 
@@ -34,7 +34,7 @@ class TestCase extends Orchestra
 		config()->set('database.default', 'testing');
 
 		/*
-		include_once __DIR__.'/../database/migrations/create_manage-laravel-stats_table.php.stub';
+		include_once __DIR__.'/../database/migrations/create_manage-laravel-status_table.php.stub';
 		(new \CreatePackageTable())->up();
 		*/
 	}

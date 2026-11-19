@@ -1,9 +1,9 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Helpers\SystemCommandExecutor;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\SystemCommandExecutor;
 
 class SystemCommandExecutorTest extends TestCase
 {

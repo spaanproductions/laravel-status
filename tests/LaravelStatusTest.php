@@ -1,23 +1,23 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests;
+namespace SpaanProductions\LaravelStatus\Tests;
 
 use Composer\InstalledVersions;
-use Mtvtd\LaravelStats\LaravelStats;
 use Illuminate\Console\Scheduling\Schedule;
+use SpaanProductions\LaravelStatus\LaravelStatus;
 
-class LaravelStatsTest extends TestCase
+class LaravelStatusTest extends TestCase
 {
 	public function test_version_returns_the_installed_composer_version()
 	{
-		$expected = InstalledVersions::getVersion('mtvtd/laravel-stats');
+		$expected = InstalledVersions::getVersion('spaanproductions/laravel-status');
 
-		$this->assertSame($expected, (new LaravelStats())->version());
+		$this->assertSame($expected, (new LaravelStatus())->version());
 	}
 
 	public function test_sanitised_command_strips_quotes_php_binary_and_artisan_token()
 	{
-		$stats = new LaravelStats();
+		$stats = new LaravelStatus();
 
 		$command = sprintf("'%s' 'artisan' inspire", PHP_BINARY);
 
@@ -27,16 +27,16 @@ class LaravelStatsTest extends TestCase
 		$this->assertSame('schedule:run', $stats->sanitisedCommand('"artisan" schedule:run'));
 	}
 
-	public function test_fingerprint_task_returns_stable_managelaravel_prefixed_sha1()
+	public function test_fingerprint_task_returns_stable_laravel_status_prefixed_sha1()
 	{
 		$event = app(Schedule::class)->command('inspire')->daily();
 
-		$first = (new LaravelStats())->fingerprintTask($event);
-		$second = (new LaravelStats())->fingerprintTask($event);
+		$first = (new LaravelStatus())->fingerprintTask($event);
+		$second = (new LaravelStatus())->fingerprintTask($event);
 
 		$this->assertSame($first, $second);
-		$this->assertStringStartsWith('managelaravel:', $first);
-		$this->assertSame(40, strlen(substr($first, strlen('managelaravel:'))));
+		$this->assertStringStartsWith('laravel-status:', $first);
+		$this->assertSame(40, strlen(substr($first, strlen('laravel-status:'))));
 	}
 
 	public function test_fingerprint_callback_event_includes_string_command_in_hash()
@@ -45,7 +45,7 @@ class LaravelStatsTest extends TestCase
 		$eventA = $schedule->call('Foo@bar')->everyMinute();
 		$eventB = $schedule->call('Foo@baz')->everyMinute();
 
-		$stats = new LaravelStats();
+		$stats = new LaravelStatus();
 
 		$this->assertNotSame(
 			$stats->fingerprintTask($eventA),
@@ -59,9 +59,9 @@ class LaravelStatsTest extends TestCase
 			return 'noop';
 		})->everyMinute();
 
-		$fingerprint = (new LaravelStats())->fingerprintTask($event);
+		$fingerprint = (new LaravelStatus())->fingerprintTask($event);
 
-		$this->assertStringStartsWith('managelaravel:', $fingerprint);
+		$this->assertStringStartsWith('laravel-status:', $fingerprint);
 		$this->assertIsArray((array) $event->extra);
 		$this->assertArrayHasKey('file', (array) $event->extra);
 		$this->assertArrayHasKey('line', (array) $event->extra);
@@ -74,10 +74,10 @@ class LaravelStatsTest extends TestCase
 		$invokable = new InvokableCallback();
 		$event = $schedule->call($invokable)->everyMinute();
 
-		$fingerprint = (new LaravelStats())->fingerprintTask($event);
+		$fingerprint = (new LaravelStatus())->fingerprintTask($event);
 
 		$expected = sprintf(
-			'managelaravel:%s',
+			'laravel-status:%s',
 			sha1(str_replace('..', '.', $event->expression . '.' . get_class($invokable) . '.' . $event->description))
 		);
 
@@ -89,11 +89,11 @@ class LaravelStatsTest extends TestCase
 		$event = app(Schedule::class)->command('inspire')->daily()->description('Inspire me');
 
 		$expected = sprintf(
-			'managelaravel:%s',
+			'laravel-status:%s',
 			sha1(trim($event->expression . '.' . $event->command . '.' . $event->description, '.'))
 		);
 
-		$this->assertSame($expected, (new LaravelStats())->fingerprintTask($event));
+		$this->assertSame($expected, (new LaravelStatus())->fingerprintTask($event));
 	}
 }
 

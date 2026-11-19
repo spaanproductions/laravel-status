@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Backups;
+namespace SpaanProductions\LaravelStatus\Backups;
 
 use Throwable;
 
@@ -51,7 +51,7 @@ class BackupInventory
 					}
 
 					$backups = collect($destination->backups())
-						->take((int) config('laravel-stats.backups.max', 200))
+						->take((int) config('laravel-status.backups.max', 200))
 						->map(function ($backup) {
 							return [
 								'path' => $backup->path(),

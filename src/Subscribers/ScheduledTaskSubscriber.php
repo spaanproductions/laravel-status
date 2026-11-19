@@ -1,20 +1,20 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Subscribers;
+namespace SpaanProductions\LaravelStatus\Subscribers;
 
 use Illuminate\Events\Dispatcher;
 use Illuminate\Console\Events\ScheduledTaskFailed;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
-use Mtvtd\LaravelStats\Jobs\ScheduledTaskEventLogJob;
-use Mtvtd\LaravelStats\Helpers\Payloads\ScheduledTaskPayload;
+use SpaanProductions\LaravelStatus\Jobs\ScheduledTaskEventLogJob;
+use SpaanProductions\LaravelStatus\Helpers\Payloads\ScheduledTaskPayload;
 
 class ScheduledTaskSubscriber
 {
 	public function handle($event): void
 	{
-		if ( ! config('laravel-stats.scheduler-logging-enabled')) {
+		if ( ! config('laravel-status.scheduler-logging-enabled')) {
 			return;
 		}
 

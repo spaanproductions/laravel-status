@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\ShareableMetrics;
+namespace SpaanProductions\LaravelStatus\Tests\ShareableMetrics;
 
 use Illuminate\Support\Facades\File;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Dependencies;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Dependencies;
 
 class DependenciesTest extends TestCase
 {

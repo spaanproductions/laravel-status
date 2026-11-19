@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Helpers\Payloads;
+namespace SpaanProductions\LaravelStatus\Helpers\Payloads;
 
 class ScheduledTaskSkippedPayload extends ScheduledTaskPayload
 {

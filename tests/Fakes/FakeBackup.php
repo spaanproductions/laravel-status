@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Fakes;
+namespace SpaanProductions\LaravelStatus\Tests\Fakes;
 
 use Illuminate\Support\Carbon;
 

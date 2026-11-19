@@ -1,13 +1,13 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Backups;
+namespace SpaanProductions\LaravelStatus\Tests\Backups;
 
 use Illuminate\Support\Carbon;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Tests\Fakes\FakeBackup;
-use Mtvtd\LaravelStats\Backups\BackupInventory;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Backups;
-use Mtvtd\LaravelStats\Tests\Fakes\FakeBackupDestination;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackup;
+use SpaanProductions\LaravelStatus\Backups\BackupInventory;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Backups;
+use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackupDestination;
 
 class BackupInventoryTest extends TestCase
 {
@@ -87,7 +87,7 @@ class BackupInventoryTest extends TestCase
 	public function test_only_the_newest_backups_are_sent()
 	{
 		config()->set('backup.backup.destination.disks', ['s3']);
-		config()->set('laravel-stats.backups.max', 1);
+		config()->set('laravel-status.backups.max', 1);
 
 		FakeBackupDestination::$disks = ['s3' => ['reachable' => true, 'backups' => [
 			new FakeBackup('Clothing4U/new.zip', Carbon::now(), 10),
@@ -108,7 +108,7 @@ class BackupInventoryTest extends TestCase
 	public function test_reporting_can_be_turned_off()
 	{
 		$this->app->instance(BackupInventory::class, $this->inventory());
-		config()->set('laravel-stats.backup-reporting-enabled', false);
+		config()->set('laravel-status.backup-reporting-enabled', false);
 
 		$this->assertSame(['backups' => null], (new Backups())->toArray());
 	}

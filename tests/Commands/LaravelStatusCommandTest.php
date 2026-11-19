@@ -1,21 +1,21 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Commands;
+namespace SpaanProductions\LaravelStatus\Tests\Commands;
 
 use Illuminate\Support\Facades\Http;
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Symfony\Component\VarDumper\VarDumper;
 use Illuminate\Http\Client\ConnectionException;
-use Mtvtd\LaravelStats\Commands\LaravelStatsCommand;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Commands\LaravelStatusCommand;
 
-class LaravelStatsCommandTest extends TestCase
+class LaravelStatusCommandTest extends TestCase
 {
 	public function setUp(): void
 	{
 		parent::setUp();
 
-		config()->set('laravel-stats.base-url', 'https://status.test');
-		config()->set('laravel-stats.token', 'secret-token');
+		config()->set('laravel-status.base-url', 'https://status.test');
+		config()->set('laravel-status.token', 'secret-token');
 	}
 
 	public function test_it_posts_the_full_metric_payload_to_the_stats_endpoint()
@@ -31,7 +31,7 @@ class LaravelStatsCommandTest extends TestCase
 			], 200),
 		]);
 
-		$this->artisan('mtvtd:laravel-stats')->assertExitCode(0);
+		$this->artisan('laravel-status:sync')->assertExitCode(0);
 
 		Http::assertSent(function ($request) {
 			if ($request->url() !== 'https://status.test/api/stats') {
@@ -69,7 +69,7 @@ class LaravelStatsCommandTest extends TestCase
 		});
 
 		try {
-			$this->artisan('mtvtd:laravel-stats', ['--dry-run' => true])->assertExitCode(0);
+			$this->artisan('laravel-status:sync', ['--dry-run' => true])->assertExitCode(0);
 		} finally {
 			VarDumper::setHandler($originalHandler);
 		}
@@ -87,7 +87,7 @@ class LaravelStatsCommandTest extends TestCase
 			'https://status.test/api/stats' => Http::response(['message' => 'nope'], 500),
 		]);
 
-		$this->artisan('mtvtd:laravel-stats')->assertExitCode(1);
+		$this->artisan('laravel-status:sync')->assertExitCode(1);
 	}
 
 	public function test_it_fails_on_http_exception()
@@ -96,14 +96,14 @@ class LaravelStatsCommandTest extends TestCase
 			throw new ConnectionException('boom');
 		});
 
-		$this->artisan('mtvtd:laravel-stats')->assertExitCode(1);
+		$this->artisan('laravel-status:sync')->assertExitCode(1);
 	}
 
 	public function test_command_collects_the_documented_metric_list()
 	{
 		/* Regression guard for the hand-maintained list in handle() — if a
 		 * metric is added or removed there, update this list too. */
-		$path = (new \ReflectionClass(LaravelStatsCommand::class))->getFileName();
+		$path = (new \ReflectionClass(LaravelStatusCommand::class))->getFileName();
 		$source = file_get_contents($path);
 
 		$expected = [

@@ -1,14 +1,14 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Subscribers;
+namespace SpaanProductions\LaravelStatus\Tests\Subscribers;
 
 use Exception;
 use Illuminate\Support\Facades\Bus;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Jobs\BackupReportJob;
-use Mtvtd\LaravelStats\Subscribers\BackupSubscriber;
-use Mtvtd\LaravelStats\Tests\Fakes\FakeBackupEvents;
-use Mtvtd\LaravelStats\Tests\Fakes\FakeBackupDestination;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Jobs\BackupReportJob;
+use SpaanProductions\LaravelStatus\Subscribers\BackupSubscriber;
+use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackupEvents;
+use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackupDestination;
 
 class BackupSubscriberTest extends TestCase
 {
@@ -54,7 +54,7 @@ class BackupSubscriberTest extends TestCase
 
 	public function test_nothing_is_reported_when_turned_off()
 	{
-		config()->set('laravel-stats.backup-reporting-enabled', false);
+		config()->set('laravel-status.backup-reporting-enabled', false);
 		Bus::fake();
 
 		(new BackupSubscriber())->handle(FakeBackupEvents::succeededV10('s3', 'Clothing4U'));

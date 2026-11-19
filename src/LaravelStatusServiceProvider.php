@@ -1,0 +1,46 @@
+<?php
+
+namespace SpaanProductions\LaravelStatus;
+
+use Spatie\LaravelPackageTools\Package;
+use Spatie\LaravelPackageTools\PackageServiceProvider;
+use SpaanProductions\LaravelStatus\Subscribers\BackupSubscriber;
+use SpaanProductions\LaravelStatus\Commands\LaravelStatusCommand;
+use SpaanProductions\LaravelStatus\Subscribers\ScheduledTaskSubscriber;
+
+class LaravelStatusServiceProvider extends PackageServiceProvider
+{
+	public function configurePackage(Package $package): void
+	{
+		/*
+		 * This class is a Package Service Provider
+		 * More info: https://github.com/spatie/laravel-package-tools
+		 */
+
+		$package
+			->name('laravel-status')
+			->hasConfigFile('laravel-status')
+			// ->hasViews()
+			->hasCommands([
+				LaravelStatusCommand::class,
+			]);
+	}
+
+	public function packageBooted(): void
+	{
+		// package-tools names the tag after the short name ("status-config"); this is the tag the docs use.
+		$this->publishes([
+			__DIR__ . '/../config/laravel-status.php' => config_path('laravel-status.php'),
+		], 'laravel-status-config');
+	}
+
+	public function bootingPackage(): void
+	{
+		if ($this->app->runningInConsole()) {
+			$this->app->make('events')->subscribe(ScheduledTaskSubscriber::class);
+
+			// spatie/laravel-backup runs its backups from the console (backup:run).
+			$this->app->make('events')->subscribe(BackupSubscriber::class);
+		}
+	}
+}

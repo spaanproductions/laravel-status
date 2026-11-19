@@ -1,12 +1,13 @@
 {
-    "name": "mtvtd/laravel-stats",
-    "description": "This is my package LaravelStats",
+    "name": "spaanproductions/laravel-status",
+    "description": "Sends the versions, packages, scheduled tasks and backups of a Laravel application to the Spaan Productions status dashboard.",
     "keywords": [
-        "mtvtd",
+        "spaanproductions",
         "laravel",
-        "laravel-stats"
+        "laravel-status",
+        "monitoring"
     ],
-    "homepage": "https://github.com/mtvtd/laravel-stats",
+    "homepage": "https://github.com/spaanproductions/laravel-status",
     "license": "MIT",
     "authors": [
         {
@@ -30,13 +31,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Mtvtd\\LaravelStats\\": "src",
-            "Mtvtd\\LaravelStats\\Database\\Factories\\": "database/factories"
+            "SpaanProductions\\LaravelStatus\\": "src",
+            "SpaanProductions\\LaravelStatus\\Database\\Factories\\": "database/factories"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Mtvtd\\LaravelStats\\Tests\\": "tests"
+            "SpaanProductions\\LaravelStatus\\Tests\\": "tests"
         }
     },
     "scripts": {
@@ -49,10 +50,10 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Mtvtd\\LaravelStats\\LaravelStatsServiceProvider"
+                "SpaanProductions\\LaravelStatus\\LaravelStatusServiceProvider"
             ],
             "aliases": {
-                "LaravelStats": "Mtvtd\\LaravelStats\\LaravelStatsFacade"
+                "LaravelStatus": "SpaanProductions\\LaravelStatus\\LaravelStatusFacade"
             }
         }
     },

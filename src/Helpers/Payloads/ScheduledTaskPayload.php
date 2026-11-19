@@ -1,12 +1,12 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Helpers\Payloads;
+namespace SpaanProductions\LaravelStatus\Helpers\Payloads;
 
-use Mtvtd\LaravelStats\Facades\LaravelStats;
 use Illuminate\Console\Events\ScheduledTaskFailed;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
+use SpaanProductions\LaravelStatus\Facades\LaravelStatus;
 
 class ScheduledTaskPayload
 {
@@ -23,7 +23,7 @@ class ScheduledTaskPayload
 			'host' => parse_url(config('app.url'), PHP_URL_HOST),
 			'environment' => app()->environment(),
 			'fingerprint' => $this->fingerprint(),
-			'version' => LaravelStats::version(),
+			'version' => LaravelStatus::version(),
 			'hostname' => gethostname(),
 			'ip' => request()->getClientIp(),
 			'timezone' => (string)now()->timezone,
@@ -35,7 +35,7 @@ class ScheduledTaskPayload
 		return sha1(vsprintf('%s.%s.%s.%s.%s.%s', [
 			parse_url(config('app.url'), PHP_URL_HOST),
 			app()->environment(),
-			LaravelStats::fingerprintTask($this->event->task),
+			LaravelStatus::fingerprintTask($this->event->task),
 			getmypid(),
 			spl_object_id($this->event->task),
 			spl_object_hash($this->event->task),

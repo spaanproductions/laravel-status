@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Helpers\SourceControl;
+namespace SpaanProductions\LaravelStatus\Tests\Helpers\SourceControl;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Helpers\SystemCommandExecutor;
-use Mtvtd\LaravelStats\Helpers\SourceControl\GitInfoCollector;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\SystemCommandExecutor;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\GitInfoCollector;
 
 class GitInfoCollectorTest extends TestCase
 {

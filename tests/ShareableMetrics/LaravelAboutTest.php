@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\ShareableMetrics;
+namespace SpaanProductions\LaravelStatus\Tests\ShareableMetrics;
 
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\LaravelAbout;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\LaravelAbout;
 
 class LaravelAboutTest extends TestCase
 {

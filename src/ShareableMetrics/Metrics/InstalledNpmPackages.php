@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtvtd\LaravelStats\ShareableMetrics\Metrics;
+namespace SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
-use Mtvtd\LaravelStats\ShareableMetrics\Metric;
-use Mtvtd\LaravelStats\ShareableMetrics\CollectableMetric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\CollectableMetric;
 
 /**
  * The NPM packages in package.json (dependencies and devDependencies), with the version that package-lock.json pins.

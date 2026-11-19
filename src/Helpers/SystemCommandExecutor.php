@@ -1,6 +1,6 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Helpers;
+namespace SpaanProductions\LaravelStatus\Helpers;
 
 class SystemCommandExecutor
 {

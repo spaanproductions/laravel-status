@@ -1,20 +1,20 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Commands;
+namespace SpaanProductions\LaravelStatus\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use Mtvtd\LaravelStats\ShareableMetrics\Metric;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
 
-class LaravelStatsCommand extends Command
+class LaravelStatusCommand extends Command
 {
-	public $signature = 'mtvtd:laravel-stats {--dry-run}';
-	public $description = 'Send all the laravel stats to status.mtvtd.nl.';
+	public $signature = 'laravel-status:sync {--dry-run}';
+	public $description = 'Send the stats of this application to the status dashboard (laravel-status.base-url).';
 
 	public function handle(): int
 	{
-		$this->output->title('Uploading all stats to ManageLaravel.');
+		$this->output->title('Sending the stats to ' . config('laravel-status.base-url') . '.');
 
 		try {
 			$data = collect([
@@ -56,11 +56,11 @@ class LaravelStatsCommand extends Command
 		}
 
 		try {
-			$response = Http::baseUrl(config('laravel-stats.base-url'))
+			$response = Http::baseUrl(config('laravel-status.base-url'))
 				->withHeaders([
 					'Accept' => 'application/json',
 				])
-				->withToken(config('laravel-stats.token'))
+				->withToken(config('laravel-status.token'))
 				->post('/api/stats', $data->toArray());
 		} catch (\Throwable $exception) {
 			$this->output->error('Posting data to API failed!');

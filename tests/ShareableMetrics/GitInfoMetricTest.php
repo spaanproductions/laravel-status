@@ -1,13 +1,13 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\ShareableMetrics;
+namespace SpaanProductions\LaravelStatus\Tests\ShareableMetrics;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Helpers\SourceControl\GitInfo;
-use Mtvtd\LaravelStats\Helpers\SourceControl\CommitInfo;
-use Mtvtd\LaravelStats\Helpers\SourceControl\RemoteInfo;
-use Mtvtd\LaravelStats\Helpers\SourceControl\GitInfoCollector;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\GitInfo as GitInfoMetric;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\GitInfo;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\CommitInfo;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\RemoteInfo;
+use SpaanProductions\LaravelStatus\Helpers\SourceControl\GitInfoCollector;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\GitInfo as GitInfoMetric;
 
 class GitInfoMetricTest extends TestCase
 {

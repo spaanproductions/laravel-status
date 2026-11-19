@@ -1,12 +1,12 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Subscribers;
+namespace SpaanProductions\LaravelStatus\Subscribers;
 
 use Illuminate\Events\Dispatcher;
-use Mtvtd\LaravelStats\Jobs\BackupReportJob;
+use SpaanProductions\LaravelStatus\Jobs\BackupReportJob;
 
 /**
- * Reports every spatie/laravel-backup run to status.mtvtd.nl. Listens only when that package is installed.
+ * Reports every spatie/laravel-backup run to status.spaanproductions.nl. Listens only when that package is installed.
  */
 class BackupSubscriber
 {
@@ -16,7 +16,7 @@ class BackupSubscriber
 
 	public function handle($event): void
 	{
-		if ( ! config('laravel-stats.backup-reporting-enabled', true)) {
+		if ( ! config('laravel-status.backup-reporting-enabled', true)) {
 			return;
 		}
 

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\ShareableMetrics;
+namespace SpaanProductions\LaravelStatus\Tests\ShareableMetrics;
 
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Illuminate\Console\Scheduling\Schedule;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\ScheduledTasks;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\ScheduledTasks;
 
 class ScheduledTasksTest extends TestCase
 {

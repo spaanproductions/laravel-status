@@ -1,6 +1,20 @@
 # Changelog
 
-All notable changes to `manage-laravel-stats` will be documented in this file.
+All notable changes to `spaanproductions/laravel-status` will be documented in this file. Up to 2.4.0 the package was
+`mtvtd/laravel-stats`.
+
+## 3.0.0 - unreleased
+
+The package is now `spaanproductions/laravel-status` and reports to status.spaanproductions.nl. Upgrading from
+`mtvtd/laravel-stats`:
+
+- `composer remove mtvtd/laravel-stats && composer require spaanproductions/laravel-status`.
+- The command is `php artisan laravel-status:sync` (was `mtvtd:laravel-stats`); update the deploy script.
+- The env keys are `LARAVEL_STATUS_*` (were `LARAVEL_STATS_*`), the config file is `config/laravel-status.php`
+  (was `config/laravel-stats.php`), the namespace is `SpaanProductions\LaravelStatus` (was `Mtvtd\LaravelStats`).
+- With `LARAVEL_STATUS_LOG_EXCEPTIONS=true`, failed requests go to `report()` (the project's error tracker) instead of
+  Bugsnag or the log.
+- Removed the unused `ManageLaravelTeam` metric.
 
 ## 2.4.0 - 2026-11-06
 
@@ -22,6 +36,6 @@ All notable changes to `manage-laravel-stats` will be documented in this file.
 
 - Report spatie/laravel-backup backups (v8–v10) to status.mtvtd.nl: with `mtvtd:laravel-stats`, and after every backup run (also failed ones, with the error). Turn off with `LARAVEL_STATS_BACKUP_REPORTING_ENABLED=false`.
 
-## 1.0.0 - 202X-XX-XX
+## 1.0.0
 
-- initial release
+- Initial release as `mtvtd/laravel-stats`.

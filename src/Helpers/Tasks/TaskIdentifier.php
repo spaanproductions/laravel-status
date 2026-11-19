@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Helpers\Tasks;
+namespace SpaanProductions\LaravelStatus\Helpers\Tasks;
 
 use Illuminate\Support\Str;
 use Illuminate\Console\Scheduling\Event;
-use Mtvtd\LaravelStats\Facades\LaravelStats;
 use Illuminate\Console\Scheduling\CallbackEvent;
+use SpaanProductions\LaravelStatus\Facades\LaravelStatus;
 
 class TaskIdentifier
 {
@@ -30,7 +30,7 @@ class TaskIdentifier
 			}
 		}
 
-		if (Str::contains(LaravelStats::sanitisedCommand($task->command), 'artisan')) {
+		if (Str::contains(LaravelStatus::sanitisedCommand($task->command), 'artisan')) {
 			return static::TYPE_COMMAND;
 		}
 

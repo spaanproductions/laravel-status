@@ -1,11 +1,11 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Helpers\Payloads;
+namespace SpaanProductions\LaravelStatus\Helpers\Payloads;
 
 use ReflectionClass;
 use Illuminate\Console\Scheduling\Event;
-use Mtvtd\LaravelStats\Facades\LaravelStats;
-use Mtvtd\LaravelStats\Helpers\Tasks\TaskIdentifier;
+use SpaanProductions\LaravelStatus\Facades\LaravelStatus;
+use SpaanProductions\LaravelStatus\Helpers\Tasks\TaskIdentifier;
 
 class TaskPayload
 {
@@ -23,13 +23,13 @@ class TaskPayload
 			'timezone' => $this->event->timezone,
 			'type' => (new TaskIdentifier)($this->event),
 			'expression' => $this->event->expression,
-			'command' => LaravelStats::sanitisedCommand($this->event->command),
+			'command' => LaravelStatus::sanitisedCommand($this->event->command),
 			'maintenance' => $this->event->evenInMaintenanceMode,
 			'without_overlapping' => $this->event->withoutOverlapping,
 			'on_one_server' => $this->event->onOneServer,
 			'run_in_background' => $this->event->runInBackground,
 			'description' => $this->event->description,
-			'mutex' => LaravelStats::fingerprintTask($this->event),
+			'mutex' => LaravelStatus::fingerprintTask($this->event),
 			'filtered' => $this->isFiltered(),
 			/* @phpstan-ignore-next-line */
 			'extra' => $this->event->extra ?? null,

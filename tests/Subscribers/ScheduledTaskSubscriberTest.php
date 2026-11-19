@@ -1,17 +1,17 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Subscribers;
+namespace SpaanProductions\LaravelStatus\Tests\Subscribers;
 
 use Illuminate\Support\Facades\Bus;
 use Illuminate\Support\Facades\Event;
-use Mtvtd\LaravelStats\Tests\TestCase;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Console\Events\ScheduledTaskFailed;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
 use Illuminate\Console\Events\ScheduledTaskSkipped;
 use Illuminate\Console\Events\ScheduledTaskFinished;
 use Illuminate\Console\Events\ScheduledTaskStarting;
-use Mtvtd\LaravelStats\Jobs\ScheduledTaskEventLogJob;
-use Mtvtd\LaravelStats\Subscribers\ScheduledTaskSubscriber;
+use SpaanProductions\LaravelStatus\Jobs\ScheduledTaskEventLogJob;
+use SpaanProductions\LaravelStatus\Subscribers\ScheduledTaskSubscriber;
 
 class ScheduledTaskSubscriberTest extends TestCase
 {
@@ -36,7 +36,7 @@ class ScheduledTaskSubscriberTest extends TestCase
 
 	public function test_handle_short_circuits_when_scheduler_logging_disabled()
 	{
-		config()->set('laravel-stats.scheduler-logging-enabled', false);
+		config()->set('laravel-status.scheduler-logging-enabled', false);
 		Bus::fake();
 
 		$task = app(Schedule::class)->command('inspire')->daily();
@@ -49,7 +49,7 @@ class ScheduledTaskSubscriberTest extends TestCase
 
 	public function test_handle_dispatches_log_job_with_payload_from_event()
 	{
-		config()->set('laravel-stats.scheduler-logging-enabled', true);
+		config()->set('laravel-status.scheduler-logging-enabled', true);
 		Bus::fake();
 
 		$task = app(Schedule::class)->command('inspire')->daily();
