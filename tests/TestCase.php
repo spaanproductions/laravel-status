@@ -3,7 +3,6 @@
 namespace SpaanProductions\LaravelStatus\Tests;
 
 use Orchestra\Testbench\TestCase as Orchestra;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use SpaanProductions\LaravelStatus\LaravelStatusServiceProvider;
 
 class TestCase extends Orchestra
@@ -14,12 +13,6 @@ class TestCase extends Orchestra
 
 		// Static state of the fake laravel-backup destination must not leak from one test into the next.
 		Fakes\FakeBackupDestination::$disks = [];
-
-		Factory::guessFactoryNamesUsing(
-			function (string $modelName) {
-				return 'SpaanProductions\\LaravelStatus\\Database\\Factories\\' . class_basename($modelName) . 'Factory';
-			}
-		);
 	}
 
 	protected function getPackageProviders($app)
@@ -32,10 +25,5 @@ class TestCase extends Orchestra
 	public function getEnvironmentSetUp($app)
 	{
 		config()->set('database.default', 'testing');
-
-		/*
-		include_once __DIR__.'/../database/migrations/create_manage-laravel-status_table.php.stub';
-		(new \CreatePackageTable())->up();
-		*/
 	}
 }

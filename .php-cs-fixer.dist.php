@@ -47,5 +47,6 @@ return (new PhpCsFixer\Config())
         'not_operator_with_space'            => true,
         'object_operator_without_whitespace' => true,
     ])
+    ->setRiskyAllowed(true)
     ->setIndent("\t")
     ->setFinder($finder);
