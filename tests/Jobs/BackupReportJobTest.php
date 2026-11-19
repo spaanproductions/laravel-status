@@ -1,11 +1,12 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Tests\Jobs;
+namespace SpaanProductions\LaravelStatus\Tests\Jobs;
 
 use Illuminate\Support\Facades\Http;
-use Mtvtd\LaravelStats\Tests\TestCase;
-use Mtvtd\LaravelStats\Jobs\BackupReportJob;
-use Mtvtd\LaravelStats\Backups\BackupInventory;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use SpaanProductions\LaravelStatus\Tests\TestCase;
+use SpaanProductions\LaravelStatus\Jobs\BackupReportJob;
+use SpaanProductions\LaravelStatus\Backups\BackupInventory;
 
 class BackupReportJobTest extends TestCase
 {
@@ -17,8 +18,8 @@ class BackupReportJobTest extends TestCase
 
 		config()->set('app.url', 'https://c4u.nu');
 		config()->set('app.env', 'production');
-		config()->set('laravel-stats.base-url', 'https://status.test');
-		config()->set('laravel-stats.token', 'secret-token');
+		config()->set('laravel-status.base-url', 'https://status.test');
+		config()->set('laravel-status.token', 'secret-token');
 	}
 
 	private function inventory(array $destinations): BackupInventory
@@ -56,7 +57,7 @@ class BackupReportJobTest extends TestCase
 	public function test_it_does_nothing_without_a_token()
 	{
 		Http::fake();
-		config()->set('laravel-stats.token', null);
+		config()->set('laravel-status.token', null);
 
 		(new BackupReportJob($this->event))->handle($this->inventory([]));
 
@@ -66,7 +67,7 @@ class BackupReportJobTest extends TestCase
 	public function test_it_does_nothing_when_turned_off()
 	{
 		Http::fake();
-		config()->set('laravel-stats.backup-reporting-enabled', false);
+		config()->set('laravel-status.backup-reporting-enabled', false);
 
 		(new BackupReportJob($this->event))->handle($this->inventory([]));
 
@@ -80,5 +81,22 @@ class BackupReportJobTest extends TestCase
 		(new BackupReportJob($this->event))->handle($this->inventory([]));
 
 		$this->addToAssertionCount(1);
+	}
+
+	public function test_a_failing_request_is_reported_when_log_exceptions_is_on()
+	{
+		Http::fake(['*' => Http::response('Down', 503)]);
+		config()->set('laravel-status.log-exceptions', true);
+		$this->mock(ExceptionHandler::class)->shouldReceive('report')->once();
+
+		(new BackupReportJob($this->event))->handle($this->inventory([]));
+	}
+
+	public function test_a_failing_request_is_not_reported_by_default()
+	{
+		Http::fake(['*' => Http::response('Down', 503)]);
+		$this->mock(ExceptionHandler::class)->shouldNotReceive('report');
+
+		(new BackupReportJob($this->event))->handle($this->inventory([]));
 	}
 }

@@ -1,9 +1,8 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Jobs;
+namespace SpaanProductions\LaravelStatus\Jobs;
 
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -28,11 +27,11 @@ class ScheduledTaskEventLogJob implements ShouldQueue
 
 	public function handle(): void
 	{
-		if ( ! config('laravel-stats.scheduler-logging-enabled')) {
+		if ( ! config('laravel-status.scheduler-logging-enabled')) {
 			return;
 		}
 
-		if (is_null(config('laravel-stats.token'))) {
+		if (is_null(config('laravel-status.token'))) {
 			return;
 		}
 
@@ -43,28 +42,16 @@ class ScheduledTaskEventLogJob implements ShouldQueue
 		try {
 			Http::timeout(10)
 				->retry(2, 10)
-				->baseUrl(config('laravel-stats.base-url'))
+				->baseUrl(config('laravel-status.base-url'))
 				->withHeaders([
 					'Accept' => 'application/json',
 				])
-				->withToken(config('laravel-stats.token'))
+				->withToken(config('laravel-status.token'))
 				->post('/api/task-event', $this->payload);
 		} catch (HttpClientException $exception) {
-			if (config('laravel-stats.log-exceptions')) {
-				if (class_exists('Bugsnag\BugsnagLaravel\Facades\Bugsnag')) {
-					\Bugsnag\BugsnagLaravel\Facades\Bugsnag::registerCallback(function ($report) use ($exception) {
-						$report->setMetaData([
-							'laravel-stats' => [
-								'payload' => $this->payload,
-								'exception' => $exception->getMessage(),
-							],
-						], false);
-					});
-
-					\Bugsnag\BugsnagLaravel\Facades\Bugsnag::notifyException($exception);
-				} else {
-					Log::error($exception->getMessage());
-				}
+			if (config('laravel-status.log-exceptions')) {
+				// To the error tracker of the project (Flare, Bugsnag, the log): report() uses its exception handler.
+				report($exception);
 			}
 		}
 	}

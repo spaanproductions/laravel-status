@@ -1,21 +1,20 @@
 <?php
 
-namespace Mtvtd\LaravelStats\Jobs;
+namespace SpaanProductions\LaravelStatus\Jobs;
 
 use Throwable;
 use Illuminate\Bus\Queueable;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
-use Mtvtd\LaravelStats\Backups\BackupInventory;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Host;
-use Mtvtd\LaravelStats\ShareableMetrics\Metrics\Environment;
+use SpaanProductions\LaravelStatus\Backups\BackupInventory;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Host;
+use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Environment;
 
 /**
- * Sends the backup overview to status.mtvtd.nl after spatie/laravel-backup made (or failed to make) a backup.
+ * Sends the backup overview to status.spaanproductions.nl after spatie/laravel-backup made (or failed to make) a backup.
  */
 class BackupReportJob implements ShouldQueue
 {
@@ -37,11 +36,11 @@ class BackupReportJob implements ShouldQueue
 
 	public function handle(BackupInventory $inventory): void
 	{
-		if ( ! config('laravel-stats.backup-reporting-enabled', true)) {
+		if ( ! config('laravel-status.backup-reporting-enabled', true)) {
 			return;
 		}
 
-		if (is_null(config('laravel-stats.token'))) {
+		if (is_null(config('laravel-status.token'))) {
 			return;
 		}
 
@@ -55,19 +54,16 @@ class BackupReportJob implements ShouldQueue
 		try {
 			Http::timeout(30)
 				->retry(2, 1000)
-				->baseUrl(config('laravel-stats.base-url'))
+				->baseUrl(config('laravel-status.base-url'))
 				->withHeaders([
 					'Accept' => 'application/json',
 				])
-				->withToken(config('laravel-stats.token'))
+				->withToken(config('laravel-status.token'))
 				->post('/api/backups', $payload);
 		} catch (Throwable $exception) {
-			if (config('laravel-stats.log-exceptions')) {
-				if (class_exists('Bugsnag\BugsnagLaravel\Facades\Bugsnag')) {
-					\Bugsnag\BugsnagLaravel\Facades\Bugsnag::notifyException($exception);
-				} else {
-					Log::error($exception->getMessage());
-				}
+			if (config('laravel-status.log-exceptions')) {
+				// To the error tracker of the project (Flare, Bugsnag, the log): report() uses its exception handler.
+				report($exception);
 			}
 		}
 	}
