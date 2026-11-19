@@ -4,7 +4,7 @@ namespace SpaanProductions\LaravelStatus\Tests\Backups;
 
 use Illuminate\Support\Carbon;
 use SpaanProductions\LaravelStatus\Tests\TestCase;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Backups;
+use SpaanProductions\LaravelStatus\Metrics\Backups;
 use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackup;
 use SpaanProductions\LaravelStatus\Backups\BackupInventory;
 use SpaanProductions\LaravelStatus\Tests\Fakes\FakeBackupDestination;

@@ -9,9 +9,9 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use SpaanProductions\LaravelStatus\Metrics\Host;
+use SpaanProductions\LaravelStatus\Metrics\Environment;
 use SpaanProductions\LaravelStatus\Backups\BackupInventory;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Host;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics\Environment;
 
 /**
  * Sends the backup overview to status.spaanproductions.nl after spatie/laravel-backup made (or failed to make) a backup.

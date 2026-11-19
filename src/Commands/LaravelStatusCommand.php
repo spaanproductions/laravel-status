@@ -2,10 +2,10 @@
 
 namespace SpaanProductions\LaravelStatus\Commands;
 
+use Throwable;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Http;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metric;
-use SpaanProductions\LaravelStatus\ShareableMetrics\Metrics;
+use SpaanProductions\LaravelStatus\StatsCollector;
 
 class LaravelStatusCommand extends Command
 {
@@ -16,37 +16,22 @@ class LaravelStatusCommand extends Command
 	{
 		$this->output->title('Sending the stats to ' . config('laravel-status.base-url') . '.');
 
+		$collector = app(StatsCollector::class);
+
 		try {
-			$data = collect([
-				Metrics\Host::class,
-				Metrics\Environment::class,
-				Metrics\Name::class,
-				Metrics\InstalledVersion::class,
-				Metrics\Url::class,
-				// Metrics\GitInfo::class,
-				Metrics\InstalledPackages::class,
-				Metrics\InstalledNpmPackages::class,
-				Metrics\Dependencies::class,
-				Metrics\NpmDependencies::class,
-				Metrics\PhpVersion::class,
-				Metrics\LaravelVersion::class,
-				Metrics\ServerInfo::class,
-				Metrics\ScheduledTasks::class,
-				Metrics\LaravelAbout::class,
-				Metrics\Backups::class,
-			])->map(function (string $metricClass) {
-				return new $metricClass();
-			})->map(function (Metric $metric) {
-				return $metric->toArray();
-			})->mapWithKeys(function ($item) {
-				return [
-					key($item) => $item[key($item)],
-				];
-			});
-		} catch (\Throwable $exception) {
-			$this->output->error('Collecting data failed!');
+			$data = collect($collector->collect());
+		} catch (Throwable $exception) {
+			$this->output->error('Collecting the stats failed: ' . $exception->getMessage());
+
+			if (config('laravel-status.log-exceptions')) {
+				report($exception);
+			}
 
 			return self::FAILURE;
+		}
+
+		foreach ($collector->failures() as $name => $reason) {
+			$this->warn(sprintf('Left out "%s": %s', $name, $reason));
 		}
 
 		if ($this->option('dry-run')) {

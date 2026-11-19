@@ -5,8 +5,8 @@ namespace SpaanProductions\LaravelStatus\Tests\Commands;
 use Illuminate\Support\Facades\Http;
 use Symfony\Component\VarDumper\VarDumper;
 use Illuminate\Http\Client\ConnectionException;
+use SpaanProductions\LaravelStatus\StatsCollector;
 use SpaanProductions\LaravelStatus\Tests\TestCase;
-use SpaanProductions\LaravelStatus\Commands\LaravelStatusCommand;
 
 class LaravelStatusCommandTest extends TestCase
 {
@@ -31,7 +31,8 @@ class LaravelStatusCommandTest extends TestCase
 			], 200),
 		]);
 
-		$this->artisan('laravel-status:sync')->assertExitCode(0);
+		// Without the mocked console output: that mock also swallows the output of the nested `about` command.
+		$this->assertSame(0, $this->withoutMockingConsoleOutput()->artisan('laravel-status:sync'));
 
 		Http::assertSent(function ($request) {
 			if ($request->url() !== 'https://status.test/api/stats') {
@@ -47,7 +48,7 @@ class LaravelStatusCommandTest extends TestCase
 			$expectedKeys = [
 				'host', 'environment', 'name', 'version', 'url', 'packages',
 				'php-version', 'laravel-version', 'server-info',
-				'scheduled-tasks', 'about', 'backups',
+				'scheduled-tasks', 'about', 'backups', 'git-info',
 			];
 
 			foreach ($expectedKeys as $key) {
@@ -99,33 +100,15 @@ class LaravelStatusCommandTest extends TestCase
 		$this->artisan('laravel-status:sync')->assertExitCode(1);
 	}
 
-	public function test_command_collects_the_documented_metric_list()
+	public function test_the_collector_has_every_metric_the_dashboard_knows()
 	{
-		/* Regression guard for the hand-maintained list in handle() — if a
-		 * metric is added or removed there, update this list too. */
-		$path = (new \ReflectionClass(LaravelStatusCommand::class))->getFileName();
-		$source = file_get_contents($path);
+		$names = array_map(function (string $class) {
+			return app($class)->name();
+		}, StatsCollector::METRICS);
 
-		$expected = [
-			'Metrics\\Host::class',
-			'Metrics\\Environment::class',
-			'Metrics\\Name::class',
-			'Metrics\\InstalledVersion::class',
-			'Metrics\\Url::class',
-			'Metrics\\InstalledPackages::class',
-			'Metrics\\InstalledNpmPackages::class',
-			'Metrics\\Dependencies::class',
-			'Metrics\\NpmDependencies::class',
-			'Metrics\\PhpVersion::class',
-			'Metrics\\LaravelVersion::class',
-			'Metrics\\ServerInfo::class',
-			'Metrics\\ScheduledTasks::class',
-			'Metrics\\LaravelAbout::class',
-			'Metrics\\Backups::class',
-		];
-
-		foreach ($expected as $needle) {
-			$this->assertStringContainsString($needle, $source, "Expected metric reference $needle in command source.");
-		}
+		$this->assertEqualsCanonicalizing([
+			'host', 'environment', 'name', 'version', 'url', 'git-info', 'packages', 'npm-packages', 'dependencies',
+			'npm-dependencies', 'php-version', 'laravel-version', 'server-info', 'scheduled-tasks', 'about', 'backups',
+		], $names);
 	}
 }
